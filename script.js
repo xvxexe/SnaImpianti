@@ -1,3 +1,5 @@
+document.documentElement.classList.add('js');
+
 document.addEventListener('DOMContentLoaded', () => {
   const navToggle = document.querySelector('.nav-toggle');
   const navPanel = document.querySelector('.main-nav') || document.querySelector('.nav');
@@ -12,7 +14,20 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.main-nav a, .nav a').forEach(link => {
     const href = link.getAttribute('href');
     if (!href || href.startsWith('mailto:') || href.startsWith('tel:')) return;
-    if (href === path) link.classList.add('active');
+    if (href === path) {
+      link.classList.add('active');
+      const group = link.closest('.nav-group');
+      if (group) group.classList.add('active');
+    }
+  });
+
+  document.querySelectorAll('.nav-group').forEach(group => {
+    group.addEventListener('toggle', () => {
+      if (!group.open) return;
+      document.querySelectorAll('.nav-group[open]').forEach(other => {
+        if (other !== group) other.open = false;
+      });
+    });
   });
 
   document.querySelectorAll('[data-scroll]').forEach(btn => {
@@ -24,6 +39,24 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  const revealTargets = document.querySelectorAll('.section, .section-tight, .page-hero, .hero-panel, .card, .mini-card, .process-card, .info-card, .gallery-item, .band');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+    revealTargets.forEach(el => {
+      el.classList.add('reveal');
+      revealObserver.observe(el);
+    });
+  } else {
+    revealTargets.forEach(el => el.classList.add('is-visible'));
+  }
 
   document.querySelectorAll('[data-mail-form]').forEach(form => {
     form.addEventListener('submit', (e) => {

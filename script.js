@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const revealTargets = document.querySelectorAll('.section, .section-tight, .page-hero, .hero-panel, .card, .mini-card, .process-card, .info-card, .gallery-item, .band');
+  const revealTargets = document.querySelectorAll('.section, .section-tight, .page-hero, .hero-panel, .card, .mini-card, .process-card, .info-card, .gallery-item, .album-card, .band');
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
@@ -73,6 +73,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const albumCards = document.querySelectorAll('[data-album-target]');
+  const albumPanels = document.querySelectorAll('.album-panel');
+  if (albumCards.length && albumPanels.length) {
+    const closeAlbums = () => {
+      albumPanels.forEach(panel => { panel.hidden = true; });
+      albumCards.forEach(card => card.setAttribute('aria-expanded', 'false'));
+    };
+
+    albumCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const target = document.getElementById(card.dataset.albumTarget);
+        if (!target) return;
+        const isOpen = !target.hidden;
+        closeAlbums();
+        if (isOpen) return;
+        target.hidden = false;
+        card.setAttribute('aria-expanded', 'true');
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    document.querySelectorAll('[data-album-close]').forEach(button => {
+      button.addEventListener('click', () => {
+        closeAlbums();
+        document.querySelector('.album-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
   const galleryItems = document.querySelectorAll('.gallery-item');
   if (galleryItems.length) {
     const lightbox = document.createElement('div');
@@ -83,7 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightboxBtn = lightbox.querySelector('button');
 
     galleryItems.forEach(item => {
-      item.addEventListener('click', () => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
         const img = item.querySelector('img');
         lightboxImg.src = item.dataset.full || (img ? img.src : '');
         lightboxImg.alt = img ? img.alt : '';

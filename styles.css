@@ -510,6 +510,36 @@ p, li {
   columns: 3 280px;
   column-gap: 18px;
 }
+.gallery-section .section-header {
+  align-items: start;
+}
+.gallery-category {
+  padding-top: clamp(26px, 4vw, 46px);
+}
+.gallery-category + .gallery-category {
+  margin-top: clamp(48px, 7vw, 84px);
+}
+.gallery-category .section-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(34,44,77,0.1);
+}
+.gallery-category .copy {
+  max-width: 780px;
+}
+.gallery-category h2 {
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  line-height: 1.08;
+}
+.gallery-category p {
+  margin: 12px 0 0;
+  color: var(--muted);
+}
 .gallery-item {
   break-inside: avoid;
   display:block;

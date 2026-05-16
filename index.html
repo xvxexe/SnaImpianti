@@ -15,6 +15,137 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=20260427-5" />
+  <style>
+    .partners-section {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(77,94,150,0.11), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.86), rgba(238,241,245,0.72));
+    }
+    .partners-shell {
+      position: relative;
+      padding: clamp(26px, 4vw, 38px);
+      border: 1px solid rgba(34,44,77,0.08);
+      border-radius: 34px;
+      background: rgba(255,255,255,0.76);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+    }
+    .partners-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 22px;
+      margin-bottom: 24px;
+    }
+    .partners-head h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(1.8rem, 3.2vw, 3rem);
+      line-height: 1.08;
+    }
+    .partners-head p {
+      margin: 10px 0 0;
+      max-width: 62ch;
+      color: var(--muted);
+    }
+    .partners-controls {
+      display: flex;
+      gap: 10px;
+      flex: 0 0 auto;
+    }
+    .partners-arrow {
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(34,44,77,0.12);
+      border-radius: 999px;
+      background: white;
+      color: var(--navy);
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+      transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+    }
+    .partners-arrow:hover {
+      transform: translateY(-2px);
+      border-color: rgba(77,94,150,0.26);
+      box-shadow: var(--shadow);
+    }
+    .partners-viewport {
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
+    }
+    .partners-track {
+      display: flex;
+      width: max-content;
+      gap: 18px;
+      animation: partners-marquee 42s linear infinite;
+      will-change: transform;
+    }
+    .partners-viewport:hover .partners-track,
+    .partners-viewport:focus-within .partners-track {
+      animation-play-state: paused;
+    }
+    .partner-card {
+      position: relative;
+      width: clamp(170px, 18vw, 230px);
+      min-height: 118px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      border: 1px solid rgba(34,44,77,0.08);
+      border-radius: 24px;
+      background: linear-gradient(180deg, #ffffff, #f7f9fc);
+      box-shadow: var(--shadow-soft);
+      flex: 0 0 auto;
+      transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s ease, border-color .3s ease;
+    }
+    .partner-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(77,94,150,0.24);
+      box-shadow: var(--shadow);
+    }
+    .partner-card img {
+      width: 100%;
+      height: 72px;
+      object-fit: contain;
+      filter: grayscale(1) contrast(1.02);
+      opacity: .82;
+      transition: filter .25s ease, opacity .25s ease, transform .25s ease;
+    }
+    .partner-card:hover img {
+      filter: grayscale(0) contrast(1);
+      opacity: 1;
+      transform: scale(1.04);
+    }
+    .partner-fallback {
+      display: none;
+      color: var(--navy);
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .partner-card.logo-error img { display: none; }
+    .partner-card.logo-error .partner-fallback { display: block; }
+    @keyframes partners-marquee {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(-50%, 0, 0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .partners-track { animation: none; }
+    }
+    @media (max-width: 820px) {
+      .partners-head {
+        align-items: start;
+        flex-direction: column;
+      }
+      .partners-controls { width: 100%; justify-content: flex-end; }
+      .partners-shell { padding: 22px; border-radius: 26px; }
+      .partner-card { width: 168px; min-height: 108px; padding: 18px; }
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -177,6 +308,46 @@
   </div>
 </section>
 
+<section class="section partners-section" aria-labelledby="partners-title">
+  <div class="container partners-shell">
+    <div class="partners-head">
+      <div>
+        <div class="kicker">Aziende con cui abbiamo collaborato</div>
+        <h2 id="partners-title">Partner e collaborazioni industriali</h2>
+        <p>Una selezione completa dei loghi presenti nel carousel originale del sito S.N.A. Impianti, riportata in una sezione più fluida, leggibile e adatta anche al mobile.</p>
+      </div>
+      <div class="partners-controls" aria-label="Controlli carousel partner">
+        <button class="partners-arrow" type="button" data-partner-prev aria-label="Scorri loghi partner indietro">‹</button>
+        <button class="partners-arrow" type="button" data-partner-next aria-label="Scorri loghi partner avanti">›</button>
+      </div>
+    </div>
+    <div class="partners-viewport" tabindex="0" aria-label="Carousel animato dei partner S.N.A. Impianti">
+      <div class="partners-track" data-partners-track>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/150" alt="Logo partner S.N.A. Impianti 1" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 1</span></article>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/160" alt="Logo partner S.N.A. Impianti 2" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 2</span></article>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/181" alt="Logo partner S.N.A. Impianti 3" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 3</span></article>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/430" alt="Logo partner S.N.A. Impianti 4" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 4</span></article>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/222" alt="Logo partner S.N.A. Impianti 5" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 5</span></article>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/200" alt="Logo partner S.N.A. Impianti 6" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 6</span></article>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/250" alt="Logo partner S.N.A. Impianti 7" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 7</span></article>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/900" alt="Logo partner S.N.A. Impianti 8" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 8</span></article>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/960" alt="Logo partner S.N.A. Impianti 9" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 9</span></article>
+        <article class="partner-card"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/396" alt="Logo partner S.N.A. Impianti 10" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 10</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/150" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 1</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/160" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 2</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/181" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 3</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/430" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 4</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/222" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 5</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/200" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 6</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/250" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 7</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/900" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 8</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/960" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 9</span></article>
+        <article class="partner-card" aria-hidden="true"><img loading="lazy" decoding="async" src="https://www.snaimpianti.it/396" alt="" onerror="this.closest('.partner-card').classList.add('logo-error')"><span class="partner-fallback">Partner 10</span></article>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="container band">
     <div class="grid-2" style="align-items:center;">
@@ -219,5 +390,26 @@
     </div>
   </footer>
   <script src="script.js?v=20260427-2"></script>
+  <script>
+    (() => {
+      const track = document.querySelector('[data-partners-track]');
+      const prev = document.querySelector('[data-partner-prev]');
+      const next = document.querySelector('[data-partner-next]');
+      if (!track || !prev || !next) return;
+      const nudge = (direction) => {
+        track.style.animationPlayState = 'paused';
+        track.animate(
+          [
+            { transform: 'translate3d(0, 0, 0)' },
+            { transform: `translate3d(${direction * 190}px, 0, 0)` }
+          ],
+          { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1)' }
+        );
+        window.setTimeout(() => { track.style.animationPlayState = ''; }, 620);
+      };
+      prev.addEventListener('click', () => nudge(1));
+      next.addEventListener('click', () => nudge(-1));
+    })();
+  </script>
 </body>
 </html>

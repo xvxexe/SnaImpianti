@@ -58,6 +58,167 @@ document.addEventListener('DOMContentLoaded', () => {
     revealTargets.forEach(el => el.classList.add('is-visible'));
   }
 
+  function setupPartnersCarousel() {
+    const section = document.querySelector('.partners-section');
+    const track = document.querySelector('[data-partners-track]');
+    if (!section || !track) return;
+
+    const style = document.createElement('style');
+    style.textContent = `
+      .partners-section {
+        padding: clamp(2.4rem, 4vw, 3.6rem) 0 !important;
+        overflow: hidden !important;
+        background: #f6f7fb !important;
+      }
+      .partners-shell {
+        width: min(100% - 32px, var(--max)) !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+      }
+      .partners-head {
+        display: grid !important;
+        gap: .45rem !important;
+        margin-bottom: 1.05rem !important;
+        max-width: 760px !important;
+      }
+      .partners-head .kicker {
+        border: 0 !important;
+        background: transparent !important;
+        padding: 0 !important;
+        color: var(--accent) !important;
+        font-size: .72rem !important;
+        font-weight: 850 !important;
+        letter-spacing: .14em !important;
+      }
+      .partners-head h2 {
+        max-width: 720px !important;
+        margin: 0 !important;
+        color: var(--navy) !important;
+        font-size: clamp(1.35rem, 2vw, 2rem) !important;
+        line-height: 1.08 !important;
+        letter-spacing: -.035em !important;
+        font-weight: 850 !important;
+      }
+      .partners-head p {
+        display: none !important;
+      }
+      .partners-controls {
+        display: none !important;
+      }
+      .partners-viewport {
+        position: relative !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        border-radius: 999px !important;
+        padding-block: .2rem !important;
+        mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent) !important;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent) !important;
+      }
+      .partners-track {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        width: max-content !important;
+        gap: .65rem !important;
+        will-change: transform !important;
+        animation: partners-marquee 86s linear infinite !important;
+      }
+      .partners-viewport:hover .partners-track,
+      .partners-viewport:focus-within .partners-track {
+        animation-play-state: running !important;
+      }
+      .partner-card {
+        width: auto !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        height: 42px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex: 0 0 auto !important;
+        padding: 0 .92rem !important;
+        border: 1px solid rgba(29, 36, 64, .13) !important;
+        border-radius: 999px !important;
+        background: rgba(255,255,255,.86) !important;
+        box-shadow: 0 10px 28px rgba(21, 29, 52, .06) !important;
+        transform: none !important;
+      }
+      .partner-card:hover {
+        transform: none !important;
+        box-shadow: 0 10px 28px rgba(21, 29, 52, .06) !important;
+        border-color: rgba(29, 36, 64, .2) !important;
+      }
+      .partner-card img {
+        display: none !important;
+      }
+      .partner-fallback {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: .42rem !important;
+        color: var(--navy) !important;
+        font-size: .78rem !important;
+        font-weight: 850 !important;
+        letter-spacing: .06em !important;
+        text-transform: uppercase !important;
+        white-space: nowrap !important;
+      }
+      .partner-fallback::before {
+        content: '' !important;
+        width: .42rem !important;
+        height: .42rem !important;
+        border-radius: 999px !important;
+        background: linear-gradient(135deg, var(--navy), var(--accent)) !important;
+        opacity: .8 !important;
+      }
+      @keyframes partners-marquee {
+        from { transform: translate3d(0, 0, 0); }
+        to { transform: translate3d(-50%, 0, 0); }
+      }
+      @media (max-width: 820px) {
+        .partners-section { padding: 2.1rem 0 !important; }
+        .partners-shell { width: min(100% - 22px, var(--max)) !important; }
+        .partners-head { margin-bottom: .85rem !important; }
+        .partner-card { height: 38px !important; padding-inline: .76rem !important; }
+        .partner-fallback { font-size: .72rem !important; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .partners-track { animation: none !important; transform: none !important; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const labels = [
+      'Collaborazione 01',
+      'Collaborazione 02',
+      'Collaborazione 03',
+      'Collaborazione 04',
+      'Collaborazione 05',
+      'Collaborazione 06',
+      'Collaborazione 07',
+      'Collaborazione 08',
+      'Collaborazione 09',
+      'Collaborazione 10',
+    ];
+
+    const cards = [...track.querySelectorAll('.partner-card')];
+    cards.forEach((card, index) => {
+      const img = card.querySelector('img');
+      const fallback = card.querySelector('.partner-fallback');
+      const label = labels[index % labels.length];
+      card.classList.remove('logo-error');
+      card.setAttribute('aria-label', label);
+      if (img) img.setAttribute('aria-hidden', 'true');
+      if (fallback) fallback.textContent = label;
+    });
+  }
+
+  setupPartnersCarousel();
+
   document.querySelectorAll('[data-mail-form]').forEach(form => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();

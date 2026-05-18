@@ -91,7 +91,7 @@ p, li {
   flex: 0 0 auto;
 }
 .topbar .brand img {
-  width: 112px; height: 54px; object-fit: contain; border-radius: 14px; background:white;
+  width: 150px; height: 64px; object-fit: contain; border-radius: 14px; background:white;
 }
 .footer .brand img,
 .site-footer .brand img {
@@ -1051,8 +1051,8 @@ textarea { min-height: 160px; resize: vertical; }
     min-height: 72px;
   }
   .topbar .brand img {
-    width: 98px;
-    height: 48px;
+    width: 128px;
+    height: 58px;
   }
   .nav, .main-nav {
     display:none;
@@ -1135,7 +1135,7 @@ textarea { min-height: 160px; resize: vertical; }
 @media (max-width: 560px) {
   .container { width: min(100% - 22px, var(--max)); }
   .topbar-inner { min-height: 76px; }
-  .brand img { width: 66px; height: 42px; }
+  .brand img { width: 112px; height: 52px; }
   .button, .button-outline, .btn, .btn-outline { width: 100%; }
   .hero-actions { flex-direction: column; }
   .hero-stat { grid-template-columns: 1fr; }

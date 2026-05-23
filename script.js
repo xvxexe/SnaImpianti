@@ -43,26 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const partnerTrack = document.querySelector('.partners-track');
   if (partnerTrack) {
     const partnerLogos = [
-      { name: 'Partner industriale', src: 'https://logo.clearbit.com/partner.com' },
-      { name: 'Labromare 50°', src: 'https://logo.clearbit.com/labromare.it' },
-      { name: 'IGLOM', src: 'https://logo.clearbit.com/iglom.it' },
-      { name: 'G.O. & M. S.p.A.', src: 'https://logo.clearbit.com/gomspa.it' },
-      { name: 'Gruppo Cestaro Rossi', src: 'https://logo.clearbit.com/cestarorossi.it' },
-      { name: 'Neri 1895', src: 'https://logo.clearbit.com/neri1895.it' },
-      { name: 'Ma.Sol S.r.l.', src: 'https://logo.clearbit.com/masol.it' },
-      { name: 'Herambiente', src: 'https://logo.clearbit.com/herambiente.it' },
-      { name: 'GATE', src: 'https://logo.clearbit.com/gate.it' },
-      { name: 'GI&E', src: 'https://logo.clearbit.com/gie.it' }
+      { name: 'Partner industriale', src: 'assets/partners/partner-industriale.svg' },
+      { name: 'Labromare 50°', src: 'assets/partners/labromare.svg' },
+      { name: 'IGLOM', src: 'assets/partners/iglom.svg' },
+      { name: 'G.O. & M. S.p.A.', src: 'assets/partners/gom.svg' },
+      { name: 'Gruppo Cestaro Rossi', src: 'assets/partners/cestaro-rossi.svg' },
+      { name: 'Neri 1895', src: 'assets/partners/neri.svg' },
+      { name: 'Ma.Sol S.r.l.', src: 'assets/partners/masol.svg' },
+      { name: 'Herambiente', src: 'assets/partners/herambiente.svg' },
+      { name: 'GATE', src: 'assets/partners/gate.svg' },
+      { name: 'GI&E', src: 'assets/partners/gie.svg' }
     ];
 
-    const logoMarkup = partnerLogos.map((partner, index) => {
+    const logoMarkup = partnerLogos.map((partner) => {
       const safeName = partner.name.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-      return `<div class="partner-logo"><img loading="lazy" decoding="async" src="${partner.src}" alt="Logo ${safeName}" onerror="this.style.display='none';this.nextElementSibling.hidden=false;"><span hidden>${safeName}</span></div>`;
+      return `<div class="partner-logo"><img loading="lazy" decoding="async" src="${partner.src}" alt="Logo ${safeName}"><span hidden>${safeName}</span></div>`;
     }).join('');
 
     const duplicateMarkup = partnerLogos.map((partner) => {
       const safeName = partner.name.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-      return `<div class="partner-logo" aria-hidden="true"><img loading="lazy" decoding="async" src="${partner.src}" alt="" onerror="this.style.display='none';this.nextElementSibling.hidden=false;"><span hidden>${safeName}</span></div>`;
+      return `<div class="partner-logo" aria-hidden="true"><img loading="lazy" decoding="async" src="${partner.src}" alt=""><span hidden>${safeName}</span></div>`;
     }).join('');
 
     partnerTrack.innerHTML = logoMarkup + duplicateMarkup;

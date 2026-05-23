@@ -40,6 +40,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  const partnerTrack = document.querySelector('.partners-track');
+  if (partnerTrack) {
+    const partnerLogos = [
+      { name: 'Partner industriale', src: 'https://logo.clearbit.com/partner.com' },
+      { name: 'Labromare 50°', src: 'https://logo.clearbit.com/labromare.it' },
+      { name: 'IGLOM', src: 'https://logo.clearbit.com/iglom.it' },
+      { name: 'G.O. & M. S.p.A.', src: 'https://logo.clearbit.com/gomspa.it' },
+      { name: 'Gruppo Cestaro Rossi', src: 'https://logo.clearbit.com/cestarorossi.it' },
+      { name: 'Neri 1895', src: 'https://logo.clearbit.com/neri1895.it' },
+      { name: 'Ma.Sol S.r.l.', src: 'https://logo.clearbit.com/masol.it' },
+      { name: 'Herambiente', src: 'https://logo.clearbit.com/herambiente.it' },
+      { name: 'GATE', src: 'https://logo.clearbit.com/gate.it' },
+      { name: 'GI&E', src: 'https://logo.clearbit.com/gie.it' }
+    ];
+
+    const logoMarkup = partnerLogos.map((partner, index) => {
+      const safeName = partner.name.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+      return `<div class="partner-logo"><img loading="lazy" decoding="async" src="${partner.src}" alt="Logo ${safeName}" onerror="this.style.display='none';this.nextElementSibling.hidden=false;"><span hidden>${safeName}</span></div>`;
+    }).join('');
+
+    const duplicateMarkup = partnerLogos.map((partner) => {
+      const safeName = partner.name.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+      return `<div class="partner-logo" aria-hidden="true"><img loading="lazy" decoding="async" src="${partner.src}" alt="" onerror="this.style.display='none';this.nextElementSibling.hidden=false;"><span hidden>${safeName}</span></div>`;
+    }).join('');
+
+    partnerTrack.innerHTML = logoMarkup + duplicateMarkup;
+  }
+
   const revealTargets = document.querySelectorAll('.section, .section-tight, .page-hero, .hero-panel, .card, .mini-card, .process-card, .info-card, .gallery-item, .album-card, .band');
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver((entries, observer) => {

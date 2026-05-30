@@ -43,16 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const partnerTrack = document.querySelector('.partners-track');
   if (partnerTrack) {
     const partnerLogos = [
-      { name: 'Partner industriale', src: 'assets/partners/partner-industriale.svg' },
-      { name: 'Labromare 50°', src: 'assets/partners/labromare.svg' },
-      { name: 'IGLOM', src: 'assets/partners/iglom.svg' },
-      { name: 'G.O. & M. S.p.A.', src: 'assets/partners/gom.svg' },
-      { name: 'Gruppo Cestaro Rossi', src: 'assets/partners/cestaro-rossi.svg' },
-      { name: 'Neri 1895', src: 'assets/partners/neri.svg' },
-      { name: 'Ma.Sol S.r.l.', src: 'assets/partners/masol.svg' },
-      { name: 'Herambiente', src: 'assets/partners/herambiente.svg' },
-      { name: 'GATE', src: 'assets/partners/gate.svg' },
-      { name: 'GI&E', src: 'assets/partners/gie.svg' }
+      { name: 'azienda partner', src: 'assets/partners/56890283_2679614972055059_2291732478278238208_n-2.jpg.webp' },
+      { name: 'azienda partner', src: 'assets/partners/742c8833-00ab-498f-93ac-4274e2bf5299-2.png.webp' },
+      { name: 'azienda partner', src: 'assets/partners/GhH_-2.png.webp' },
+      { name: 'azienda partner', src: 'assets/partners/logo_2019-2.png.webp' },
+      { name: 'azienda partner', src: 'assets/partners/logo_gate-2.png.webp' },
+      { name: 'azienda partner', src: 'assets/partners/logo_gie_2020-2.png.webp' },
+      { name: 'azienda partner', src: 'assets/partners/logoherambiente-2.png.webp' },
+      { name: 'azienda partner', src: 'assets/partners/timthumb-removebg-preview-2.png.webp' },
+      { name: 'azienda partner', src: 'assets/partners/unnamed-2.jpg.webp' }
     ];
 
     const logoMarkup = partnerLogos.map((partner) => {

@@ -3,14 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Certificazioni e saldature certificate | S.N.A. Impianti Livorno</title>
-  <meta name="description" content="Qualità, sicurezza, ambiente, formazione e saldature certificate per carpenteria industriale, piping, skid e impianti industriali S.N.A. Impianti a Livorno." />
+  <title>Certificazioni aziendali | S.N.A. Impianti Livorno</title>
+  <meta name="description" content="Certificazioni S.N.A. Impianti Srl: ISO 9001:2015, UNI EN ISO 3834-2:2021 ed EN 1090-1 per carpenteria metallica, strutture in acciaio e saldature certificate." />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#1d2440" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260518-2" />
+  <link rel="stylesheet" href="styles.css?v=20260530-1" />
+  <style>
+    .cert-grid { display:grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .cert-card { position:relative; overflow:hidden; min-height: 100%; }
+    .cert-card::before { content:""; position:absolute; inset:0 0 auto 0; height:5px; background:linear-gradient(90deg, var(--navy), var(--accent)); }
+    .cert-card .cert-code { display:inline-flex; align-items:center; gap:8px; padding:7px 11px; border-radius:999px; background:rgba(77,94,150,.10); color:var(--navy); font-size:.82rem; font-weight:800; letter-spacing:.02em; }
+    .cert-card h3 { margin:18px 0 8px; color:var(--navy); font-size:1.35rem; line-height:1.22; }
+    .cert-meta { display:grid; gap:8px; margin:18px 0 0; padding:0; list-style:none; }
+    .cert-meta li { display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-top:1px solid rgba(34,44,77,.10); color:var(--muted); }
+    .cert-meta strong { color:var(--navy); font-size:.9rem; }
+    .cert-download-note { margin-top:18px; padding:14px 16px; border-radius:16px; background:rgba(238,241,245,.8); color:var(--muted); font-size:.95rem; }
+    .cert-pill-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
+    .cert-pill { border:1px solid rgba(34,44,77,.12); border-radius:999px; padding:8px 12px; font-weight:700; color:var(--navy); background:white; font-size:.9rem; }
+    .cert-evidence { display:grid; grid-template-columns: 1.1fr .9fr; gap:22px; align-items:start; }
+    .cert-table { width:100%; border-collapse:collapse; overflow:hidden; border-radius:18px; background:white; box-shadow:var(--shadow-soft); }
+    .cert-table th, .cert-table td { padding:14px 16px; border-bottom:1px solid rgba(34,44,77,.08); text-align:left; color:var(--muted); vertical-align:top; }
+    .cert-table th { color:var(--navy); background:rgba(238,241,245,.75); font-size:.9rem; }
+    .cert-table tr:last-child td { border-bottom:0; }
+    @media (max-width: 960px) { .cert-grid, .cert-evidence { grid-template-columns:1fr; } }
+  </style>
 </head>
 <body>
   <header class="topbar">
@@ -41,29 +60,95 @@
       </nav>
     </div>
   </header>
-  
-<section class="page-hero" style="--page-hero-image:url('assets/Immagini/Scrubber%20Super%20duplex/IMG_0028.jpg'); --page-hero-label:'Qualita / Saldature / Controlli';">
+
+<section class="page-hero" style="--page-hero-image:url('assets/Immagini/Scrubber%20Super%20duplex/IMG_0028.jpg'); --page-hero-label:'Certificazioni / Qualita / Saldatura';">
   <div class="container">
     <div class="breadcrumbs"><a href="index.html">Home</a> / <span>Certificazioni</span></div>
-    <div class="kicker">Certificazioni</div>
-    <h1>Qualità certificata, sicurezza concreta</h1>
-    <p>Per S.N.A. le certificazioni sono un contributo essenziale alla qualità e rappresentano una scelta precisa: lavorazioni sicure, controllate e affidabili. Procedure, formazione e qualifiche supportano attività di carpenteria metallica, piping industriale, skid, serbatoi e saldature su commesse tecnicamente impegnative.</p>
+    <div class="kicker">Certificazioni aziendali</div>
+    <h1>Qualità certificata per carpenteria metallica, strutture in acciaio e saldature.</h1>
+    <p>S.N.A. Impianti opera con sistemi e processi certificati da Bureau Veritas, a supporto delle attività di costruzione e montaggio di strutture in carpenteria metallica, produzione di carpenteria metallica, elementi strutturali in acciaio e controllo dei processi di saldatura.</p>
   </div>
 </section>
 
 <section class="section">
-  <div class="container grid-2">
-    <div class="card">
-      <h2 style="font-size:2.1rem;">La certificazione come standard operativo</h2>
-      <p>S.N.A. Impianti considera la qualità certificata un elemento essenziale per garantire lavorazioni sicure, controllate e affidabili. Costruzioni, saldature certificate e controlli di processo sono parte integrante dell'attività operativa, in particolare quando si lavora su tubazioni, carpenterie, serbatoi e componenti destinati a impianti industriali.</p>
-      <p>L'approccio alla qualità è quindi strutturale: non solo esecuzione tecnica, ma anche controllo dei processi, formazione e verifica continua dei risultati. La documentazione, la qualificazione del personale e il rispetto delle specifiche diventano strumenti concreti per ridurre non conformità e garantire continuità al cliente.</p>
-      <div class="quote-box">
-        <strong>Obiettivo dichiarato</strong>
-        <p style="margin-bottom:0;">Elevare conoscenze, comportamenti e cultura in tema di sicurezza e ambiente, andando oltre il solo rispetto normativo.</p>
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="kicker">Documentazione tecnica</div>
+        <h2>Certificazioni principali</h2>
       </div>
+      <p>Le certificazioni riassumono l'impegno dell'azienda nel mantenere processi controllati, tracciabilità, gestione qualità e qualificazione tecnica per lavorazioni industriali complesse.</p>
     </div>
-    <div class="card media-card">
-      <img loading="lazy" decoding="async" src="assets/Immagini/Costruzione%20duomo%20serbatoio/foto%203.jpg" alt="Carpenteria metallica e serbatoi industriali con processi controllati" />
+
+    <div class="cert-grid">
+      <article class="card cert-card">
+        <span class="cert-code">ISO 9001:2015</span>
+        <h3>Sistema di gestione qualità</h3>
+        <p>Certificazione del sistema di gestione aziendale per la costruzione e il montaggio di strutture in carpenteria metallica.</p>
+        <ul class="cert-meta">
+          <li><strong>Certificato</strong><span>IT321952</span></li>
+          <li><strong>Ente</strong><span>Bureau Veritas Italia S.p.A.</span></li>
+          <li><strong>Emissione</strong><span>23 Marzo 2023</span></li>
+          <li><strong>Validità</strong><span>fino al 19 Dicembre 2025</span></li>
+        </ul>
+      </article>
+
+      <article class="card cert-card">
+        <span class="cert-code">UNI EN ISO 3834-2:2021</span>
+        <h3>Requisiti qualità per saldatura</h3>
+        <p>Certificazione relativa alla produzione di carpenteria metallica, con processi di saldatura e materiali qualificati.</p>
+        <ul class="cert-meta">
+          <li><strong>Certificato</strong><span>IT295483 Rev. 3</span></li>
+          <li><strong>Ente</strong><span>Bureau Veritas Italia S.p.A.</span></li>
+          <li><strong>Emissione</strong><span>22 Marzo 2023</span></li>
+          <li><strong>Validità</strong><span>fino al 14 Gennaio 2026</span></li>
+        </ul>
+      </article>
+
+      <article class="card cert-card">
+        <span class="cert-code">EN 1090-1</span>
+        <h3>Controllo produzione in fabbrica</h3>
+        <p>Certificato CPR per elementi strutturali in acciaio, con classe di esecuzione fino a EXC 3 inclusa e marcatura CE.</p>
+        <ul class="cert-meta">
+          <li><strong>Certificato</strong><span>1370-CPR-1761</span></li>
+          <li><strong>Ente</strong><span>Bureau Veritas Italia S.p.A.</span></li>
+          <li><strong>Emissione</strong><span>22 Marzo 2023</span></li>
+          <li><strong>Ambito</strong><span>Elementi strutturali in acciaio</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="container cert-evidence">
+    <div class="card">
+      <div class="kicker">Ambiti coperti</div>
+      <h2 style="font-size:2.1rem;">Processi coerenti con le lavorazioni industriali</h2>
+      <p>Le certificazioni sono collegate alle attività operative dell'azienda: carpenteria metallica, saldatura, costruzione e montaggio di strutture, produzione di elementi in acciaio e controllo della produzione in fabbrica.</p>
+      <div class="cert-pill-row" aria-label="Ambiti di certificazione">
+        <span class="cert-pill">Carpenteria metallica</span>
+        <span class="cert-pill">Strutture in acciaio</span>
+        <span class="cert-pill">Saldatura</span>
+        <span class="cert-pill">Marcatura CE</span>
+        <span class="cert-pill">Controllo qualità</span>
+        <span class="cert-pill">Processi qualificati</span>
+      </div>
+      <div class="cert-download-note">Per copia aggiornata dei certificati o verifiche documentali di commessa, contattare l'azienda tramite la sezione contatti.</div>
+    </div>
+
+    <div class="card">
+      <div class="kicker">Saldatura</div>
+      <h2 style="font-size:2rem;">Procedimenti e coordinamento</h2>
+      <p>I certificati riportano procedimenti di saldatura secondo ISO 4063 e gruppi materiali secondo CEN ISO/TR 15608, con coordinamento saldatura approvato da Bureau Veritas.</p>
+      <table class="cert-table" aria-label="Procedimenti di saldatura certificati">
+        <thead><tr><th>Processo</th><th>Gruppi materiale</th></tr></thead>
+        <tbody>
+          <tr><td>136, 141</td><td>1.1, 1.2</td></tr>
+          <tr><td>141</td><td>8.1</td></tr>
+          <tr><td>141 + 111</td><td>1.1, 1.2 / 11.1 secondo certificazione</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -75,7 +160,7 @@
         <div class="kicker">Controlli e collaudi</div>
         <h2>Verifiche tecniche sulle lavorazioni</h2>
       </div>
-      <p>I controlli vengono impostati in funzione della lavorazione, delle specifiche di commessa e delle condizioni operative previste. L'obiettivo è verificare saldature, assiemi, linee e sistemi prima della consegna o dell'integrazione in impianto, riducendo non conformità e fermi successivi.</p>
+      <p>I controlli vengono impostati in funzione della lavorazione, delle specifiche di commessa e delle condizioni operative previste. L'obiettivo è verificare saldature, assiemi, linee e sistemi prima della consegna o dell'integrazione in impianto.</p>
     </div>
     <div class="grid-3 checks-grid">
       <div class="mini-card"><h3>Controlli visivi</h3><p>Verifica dello stato delle lavorazioni, delle saldature, delle finiture e della coerenza generale con disegni e specifiche concordate.</p></div>
@@ -88,54 +173,18 @@
   </div>
 </section>
 
-<section class="section-tight">
-  <div class="container">
-    <div class="section-header">
-      <div>
-        <div class="kicker">Sicurezza & ambiente</div>
-        <h2>Il triplo zero come principio guida</h2>
-      </div>
-      <p>Il rispetto della normativa sulla sicurezza e la crescita della cultura aziendale sono elementi centrali nella gestione delle attività di officina e cantiere. L'obiettivo è creare condizioni operative ordinate, prevedibili e coerenti con le esigenze di ambienti industriali complessi.</p>
-    </div>
-    <div class="number-grid">
-      <div class="box"><strong>Zero</strong><span>incidenti</span></div>
-      <div class="box"><strong>Zero</strong><span>infortuni</span></div>
-      <div class="box"><strong>Zero</strong><span>pretesti</span></div>
-      <div class="box"><strong>1</strong><span>giornata di lavoro sicura per tornare a casa ogni sera</span></div>
-    </div>
-  </div>
-</section>
-
 <section class="section">
-  <div class="container grid-2">
-    <div class="card">
-      <div class="kicker">Formazione interna</div>
-      <h2 style="font-size:2rem;">Leadership in health & safety</h2>
-      <p>Oltre alla formazione e informazione prevista dal DLgs 81/2008 e dall'accordo Stato-Regioni, S.N.A. dichiara di aver introdotto corsi di formazione interni in ambito sicurezza con l'obiettivo di arrivare alle coscienze dei collaboratori e modificare atteggiamenti e comportamenti che non contribuiscono alla mitigazione del rischio.</p>
-      <p>La prevenzione viene presentata come un fatto culturale, non solo procedurale: significa riconoscere i rischi prima dell'intervento, comunicare in modo efficace tra le squadre e mantenere comportamenti coerenti anche nelle fasi più operative.</p>
-    </div>
-    <div class="card">
-      <div class="kicker">Saldatura certificata</div>
-      <h2 style="font-size:2rem;">Processi controllati e qualificati</h2>
-      <p>Operare attraverso processi di saldatura certificata significa affrontare un settore particolarmente delicato senza lasciare spazio ai compromessi. S.N.A. investe sulla formazione per ottenere certificazioni specifiche inerenti ai processi di saldatura nel rispetto degli standard richiesti dal mercato, con particolare attenzione a preparazione, esecuzione, controllo visivo e conformità del giunto saldato.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section-tight">
-  <div class="container">
-    <div class="section-header">
+  <div class="container band">
+    <div class="grid-2" style="align-items:center;">
       <div>
-        <div class="kicker">Procedimenti</div>
-        <h2>Quattro processi chiave</h2>
+        <div class="kicker" style="color:rgba(255,255,255,0.7);">Qualifica fornitori e commesse</div>
+        <h2 style="margin-top:10px; color:white;">Hai bisogno di documentazione tecnica per una commessa?</h2>
+        <p>Contatta S.N.A. Impianti per informazioni su certificazioni, processi di saldatura, controlli, carpenteria metallica e attività industriali.</p>
       </div>
-      <p>I principali procedimenti di saldatura industriale impiegati dall'azienda coprono lavorazioni su carpenteria, tubazioni e componenti per impianti industriali. Per approfondire applicazioni, vantaggi e criteri di scelta, consulta gli articoli tecnici dedicati.</p>
-    </div>
-    <div class="process-grid">
-      <div class="process-card"><div class="step">SMAW</div><h3>Shielded Metal Arc Welding</h3><p>Procedimento tradizionale e versatile con arco elettrico tra elettrodo consumabile rivestito e pezzo da saldare.</p><a class="button-outline" href="processi-saldatura-industriale.html#saldatura-smaw">Leggi articolo SMAW</a></div>
-      <div class="process-card"><div class="step">FCAW</div><h3>Flux Cored Arc Welding</h3><p>Arco elettrico fra filo fusibile e pezzo, sotto protezione di atmosfera gassosa e avanzamento continuo del filo.</p><a class="button-outline" href="processi-saldatura-industriale.html#saldatura-fcaw">Leggi articolo FCAW</a></div>
-      <div class="process-card"><div class="step">GTAW</div><h3>Gas Tungsten Arc Welding</h3><p>Saldatura ad arco con elettrodo infusibile di tungsteno sotto protezione di gas inerte.</p><a class="button-outline" href="processi-saldatura-industriale.html#saldatura-gtaw">Leggi articolo GTAW</a></div>
-      <div class="process-card"><div class="step">GMAW</div><h3>Gas Metal Arc Welding</h3><p>Procedimento a filo continuo con protezione del bagno di saldatura tramite gas di copertura e alta produttività.</p><a class="button-outline" href="processi-saldatura-industriale.html#saldatura-gmaw">Leggi articolo GMAW</a></div>
+      <div style="display:grid; gap:14px;">
+        <a class="button" href="contatti.html">Richiedi informazioni</a>
+        <a class="button-outline" href="processi-saldatura-industriale.html">Processi di saldatura</a>
+      </div>
     </div>
   </div>
 </section>
@@ -165,6 +214,6 @@
       </div>
     </div>
   </footer>
-  <script src="script.js?v=20260427-2"></script>
+  <script src="script.js?v=20260523-4"></script>
 </body>
 </html>

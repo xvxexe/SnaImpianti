@@ -69,20 +69,77 @@ function snaimpianti_enqueue_assets(): void
 }
 add_action('wp_enqueue_scripts', 'snaimpianti_enqueue_assets');
 
+function snaimpianti_page_url(string $slug): string
+{
+    if ($slug === '') {
+        return home_url('/');
+    }
+
+    $page = get_page_by_path($slug);
+    if ($page instanceof WP_Post) {
+        return trailingslashit(get_permalink($page));
+    }
+
+    return home_url('/' . trim($slug, '/') . '/');
+}
+
 function snaimpianti_page_map(): array
 {
     return [
-        'index.html' => home_url('/'),
-        'chi-siamo.html' => home_url('/chi-siamo/'),
-        'presentazione-aziendale.html' => home_url('/presentazione-aziendale/'),
-        'certificazioni.html' => home_url('/certificazioni/'),
-        'ingegneria.html' => home_url('/ingegneria/'),
-        'prodotti.html' => home_url('/prodotti/'),
-        'galleria.html' => home_url('/galleria/'),
-        'posizioni-aperte.html' => home_url('/posizioni-aperte/'),
-        'contatti.html' => home_url('/contatti/'),
-        'processi-saldatura-industriale.html' => home_url('/processi-saldatura-industriale/'),
+        'index.html' => snaimpianti_page_url(''),
+        'chi-siamo.html' => snaimpianti_page_url('chi-siamo'),
+        'presentazione-aziendale.html' => snaimpianti_page_url('presentazione-aziendale'),
+        'certificazioni.html' => snaimpianti_page_url('certificazioni'),
+        'ingegneria.html' => snaimpianti_page_url('ingegneria'),
+        'prodotti.html' => snaimpianti_page_url('prodotti'),
+        'galleria.html' => snaimpianti_page_url('galleria'),
+        'posizioni-aperte.html' => snaimpianti_page_url('posizioni-aperte'),
+        'contatti.html' => snaimpianti_page_url('contatti'),
+        'processi-saldatura-industriale.html' => snaimpianti_page_url('processi-saldatura-industriale'),
     ];
+}
+
+function snaimpianti_static_file_from_url(string $url): ?string
+{
+    $url = trim(html_entity_decode($url, ENT_QUOTES, 'UTF-8'));
+
+    if ($url === '' || $url[0] === '#') {
+        return null;
+    }
+
+    if (preg_match('#^(mailto|tel|sms|fax|javascript):#i', $url)) {
+        return null;
+    }
+
+    $home_host = parse_url(home_url('/'), PHP_URL_HOST);
+    $url_host = parse_url($url, PHP_URL_HOST);
+
+    if ($url_host && $home_host && strtolower($url_host) !== strtolower($home_host)) {
+        return null;
+    }
+
+    $path = parse_url($url, PHP_URL_PATH);
+    if ($path === null || $path === false || $path === '') {
+        $path = explode('#', explode('?', $url, 2)[0], 2)[0];
+    }
+
+    $path = trim($path);
+    $path = preg_replace('#^https?://[^/]+#i', '', $path) ?? $path;
+    $path = preg_replace('#^\./#', '', $path) ?? $path;
+    $path = ltrim($path, '/');
+
+    if ($path === '') {
+        return 'index.html';
+    }
+
+    $file = basename($path);
+    $file = rawurldecode($file);
+
+    if (!preg_match('/\.html$/i', $file)) {
+        return null;
+    }
+
+    return strtolower($file);
 }
 
 function snaimpianti_rewrite_static_links(string $html): string
@@ -103,7 +160,7 @@ function snaimpianti_rewrite_static_links(string $html): string
     ) ?? $html;
 
     $html = preg_replace_callback(
-        '/\b(src|href|content|data-full)=([' . "'\"" . '])(assets\/[^' . "'\"" . ']+)\2/i',
+        '/\b(src|href|content|data-full)=([' . "'\"" . '])(?:\.\/|\/)?(assets\/[^' . "'\"" . ']+)\2/i',
         static function (array $match) use ($theme_uri): string {
             return $match[1] . '=' . $match[2] . esc_url($theme_uri . $match[3]) . $match[2];
         },
@@ -111,7 +168,7 @@ function snaimpianti_rewrite_static_links(string $html): string
     ) ?? $html;
 
     $html = preg_replace_callback(
-        '#url\((["\']?)(assets/[^)"\']+)\1\)#i',
+        '#url\((["\']?)(?:\.\/|\/)?(assets/[^)"\']+)\1\)#i',
         static function (array $match) use ($theme_uri): string {
             return 'url(' . $match[1] . esc_url($theme_uri . $match[2]) . $match[1] . ')';
         },
@@ -119,16 +176,15 @@ function snaimpianti_rewrite_static_links(string $html): string
     ) ?? $html;
 
     $html = preg_replace_callback(
-        '/\bhref=([' . "'\"" . '])([^' . "'\"" . ']+\.html(?:#[^' . "'\"" . ']*)?)\1/i',
+        '/\bhref=([' . "'\"" . '])([^' . "'\"" . ']+)\1/i',
         static function (array $match) use ($page_map): string {
-            $href = html_entity_decode($match[2], ENT_QUOTES, 'UTF-8');
-            $parts = explode('#', $href, 2);
-            $file = $parts[0];
-            $hash = isset($parts[1]) ? '#' . $parts[1] : '';
-
-            if (!isset($page_map[$file])) {
+            $file = snaimpianti_static_file_from_url($match[2]);
+            if (!$file || !isset($page_map[$file])) {
                 return $match[0];
             }
+
+            $fragment = parse_url(html_entity_decode($match[2], ENT_QUOTES, 'UTF-8'), PHP_URL_FRAGMENT);
+            $hash = $fragment ? '#' . $fragment : '';
 
             return 'href=' . $match[1] . esc_url($page_map[$file] . $hash) . $match[1];
         },

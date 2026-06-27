@@ -3,6 +3,21 @@ document.documentElement.classList.add('js');
 document.addEventListener('DOMContentLoaded', () => {
   const themeConfig = window.SNATheme || {};
   const assetUrl = (themeConfig.assetsUrl || 'assets').replace(/\/$/, '');
+  const homeUrl = (themeConfig.homeUrl || '/').replace(/\/?$/, '/');
+  const staticPageMap = {
+    'index.html': '',
+    'chi-siamo.html': 'chi-siamo/',
+    'presentazione-aziendale.html': 'presentazione-aziendale/',
+    'certificazioni.html': 'certificazioni/',
+    'ingegneria.html': 'ingegneria/',
+    'prodotti.html': 'prodotti/',
+    'galleria.html': 'galleria/',
+    'posizioni-aperte.html': 'posizioni-aperte/',
+    'contatti.html': 'contatti/',
+    'processi-saldatura-industriale.html': 'processi-saldatura-industriale/'
+  };
+
+  const buildSiteUrl = (slug, hash = '') => `${homeUrl}${slug}${hash || ''}`;
 
   const normalizeToStaticPage = (value) => {
     if (!value) return '';
@@ -27,10 +42,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const lastSegment = cleanPath.split('/').filter(Boolean).pop() || '';
     if (!lastSegment) return `index.html${hash}`;
-    if (lastSegment.endsWith('.html')) return `${lastSegment}${hash}`;
+    if (lastSegment.endsWith('.html')) return `${lastSegment.toLowerCase()}${hash}`;
 
-    return `${lastSegment}.html${hash}`;
+    return `${lastSegment.toLowerCase()}.html${hash}`;
   };
+
+  const rewriteInternalLink = (href) => {
+    if (!href) return null;
+    if (/^(mailto|tel|sms|fax|javascript):/i.test(href) || href.startsWith('#')) return null;
+
+    const staticPage = normalizeToStaticPage(href);
+    const [file, hashPart] = staticPage.split('#');
+    if (!staticPageMap[file]) {
+      if (file === 'index.html') return buildSiteUrl('', hashPart ? `#${hashPart}` : '');
+      return null;
+    }
+
+    return buildSiteUrl(staticPageMap[file], hashPart ? `#${hashPart}` : '');
+  };
+
+  document.querySelectorAll('a[href]').forEach(link => {
+    const fixedHref = rewriteInternalLink(link.getAttribute('href'));
+    if (fixedHref) link.setAttribute('href', fixedHref);
+  });
 
   const navToggle = document.querySelector('.nav-toggle');
   const navPanel = document.querySelector('.main-nav') || document.querySelector('.nav');

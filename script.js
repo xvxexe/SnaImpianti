@@ -1,6 +1,37 @@
 document.documentElement.classList.add('js');
 
 document.addEventListener('DOMContentLoaded', () => {
+  const themeConfig = window.SNATheme || {};
+  const assetUrl = (themeConfig.assetsUrl || 'assets').replace(/\/$/, '');
+
+  const normalizeToStaticPage = (value) => {
+    if (!value) return '';
+    if (value.startsWith('mailto:') || value.startsWith('tel:') || value.startsWith('#')) return value;
+
+    let pathname = value;
+    let hash = '';
+
+    try {
+      const parsed = new URL(value, window.location.origin);
+      if (parsed.origin !== window.location.origin) return value;
+      pathname = parsed.pathname;
+      hash = parsed.hash || '';
+    } catch (error) {
+      const parts = value.split('#');
+      pathname = parts[0];
+      hash = parts[1] ? `#${parts[1]}` : '';
+    }
+
+    const cleanPath = pathname.replace(/^\/+|\/+$/g, '');
+    if (!cleanPath) return `index.html${hash}`;
+
+    const lastSegment = cleanPath.split('/').filter(Boolean).pop() || '';
+    if (!lastSegment) return `index.html${hash}`;
+    if (lastSegment.endsWith('.html')) return `${lastSegment}${hash}`;
+
+    return `${lastSegment}.html${hash}`;
+  };
+
   const navToggle = document.querySelector('.nav-toggle');
   const navPanel = document.querySelector('.main-nav') || document.querySelector('.nav');
   if (navToggle && navPanel) {
@@ -10,11 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const path = window.location.pathname.split('/').pop() || 'index.html';
+  const currentPage = (themeConfig.currentPage || normalizeToStaticPage(window.location.href) || 'index.html').split('#')[0];
   document.querySelectorAll('.main-nav a, .nav a').forEach(link => {
     const href = link.getAttribute('href');
     if (!href || href.startsWith('mailto:') || href.startsWith('tel:')) return;
-    if (href === path) {
+
+    const linkPage = (link.getAttribute('data-page') || normalizeToStaticPage(href)).split('#')[0];
+    if (linkPage === currentPage) {
       link.classList.add('active');
       const group = link.closest('.nav-group');
       if (group) group.classList.add('active');
@@ -43,15 +76,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const partnerTrack = document.querySelector('.partners-track');
   if (partnerTrack) {
     const partnerLogos = [
-      { name: 'azienda partner', src: 'assets/partners/56890283_2679614972055059_2291732478278238208_n-2.jpg.webp' },
-      { name: 'azienda partner', src: 'assets/partners/742c8833-00ab-498f-93ac-4274e2bf5299-2.png.webp' },
-      { name: 'azienda partner', src: 'assets/partners/GhH_-2.png.webp' },
-      { name: 'azienda partner', src: 'assets/partners/logo_2019-2.png.webp' },
-      { name: 'azienda partner', src: 'assets/partners/logo_gate-2.png.webp' },
-      { name: 'azienda partner', src: 'assets/partners/logo_gie_2020-2.png.webp' },
-      { name: 'azienda partner', src: 'assets/partners/logoherambiente-2.png.webp' },
-      { name: 'azienda partner', src: 'assets/partners/timthumb-removebg-preview-2.png.webp' },
-      { name: 'azienda partner', src: 'assets/partners/unnamed-2.jpg.webp' }
+      { name: 'azienda partner', src: `${assetUrl}/partners/56890283_2679614972055059_2291732478278238208_n-2.jpg.webp` },
+      { name: 'azienda partner', src: `${assetUrl}/partners/742c8833-00ab-498f-93ac-4274e2bf5299-2.png.webp` },
+      { name: 'azienda partner', src: `${assetUrl}/partners/GhH_-2.png.webp` },
+      { name: 'azienda partner', src: `${assetUrl}/partners/logo_2019-2.png.webp` },
+      { name: 'azienda partner', src: `${assetUrl}/partners/logo_gate-2.png.webp` },
+      { name: 'azienda partner', src: `${assetUrl}/partners/logo_gie_2020-2.png.webp` },
+      { name: 'azienda partner', src: `${assetUrl}/partners/logoherambiente-2.png.webp` },
+      { name: 'azienda partner', src: `${assetUrl}/partners/timthumb-removebg-preview-2.png.webp` },
+      { name: 'azienda partner', src: `${assetUrl}/partners/unnamed-2.jpg.webp` }
     ];
 
     const logoMarkup = partnerLogos.map((partner) => {

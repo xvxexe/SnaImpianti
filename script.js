@@ -225,6 +225,26 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
   }
 
+  if (currentPage === 'chi-siamo.html') {
+    const companyImages = document.querySelectorAll('.image-stack img');
+    const replacements = [
+      {
+        src: `${assetUrl}/Immagini/Officina/IMG_20200527_093147.jpg`,
+        alt: 'Officina S.N.A. Impianti con lavorazioni metalmeccaniche e componenti industriali'
+      },
+      {
+        src: `${assetUrl}/Immagini/Officina/IMG_20200707_121751.jpg`,
+        alt: 'Area produttiva S.N.A. Impianti per carpenteria e piping industriale'
+      }
+    ];
+
+    companyImages.forEach((image, index) => {
+      if (!replacements[index]) return;
+      image.src = replacements[index].src;
+      image.alt = replacements[index].alt;
+    });
+  }
+
   const year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 });

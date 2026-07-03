@@ -225,6 +225,71 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
   }
 
+  const safeIndustrialImages = [
+    `${assetUrl}/Immagini/Tubazioni%20SKID%20GAS%20Bonura/IMG_0253.jpg`,
+    `${assetUrl}/Immagini/Tubazioni%20SKID%20GAS%20Bonura/IMG_20200610_113259.jpg`,
+    `${assetUrl}/Immagini/Tubazioni%20SKID%20GAS%20Bonura/IMG_20200611_122548.jpg`,
+    `${assetUrl}/Immagini/SKID%20LNG/f8efb232-3a4a-4cd5-9da9-2fb2d07b59f9.JPG`,
+    `${assetUrl}/Immagini/Officina/IMG_20200527_093147.jpg`,
+    `${assetUrl}/Immagini/Impianto%20OSMOSI%20CST/0561e4be-4d5e-4ff7-86e8-5ee9a2233119.jpg`
+  ];
+
+  const hasBlockedCustomerLogo = (value = '') => {
+    const decoded = decodeURIComponent(String(value)).toLowerCase();
+    return decoded.includes('/immagini/skid o&g/') || decoded.includes('/immagini/skid o%26g/') || decoded.includes('/immagini/tank olio') || decoded.includes('pignone');
+  };
+
+  const replacementImageFor = (index = 0) => safeIndustrialImages[index % safeIndustrialImages.length];
+
+  document.querySelectorAll('img').forEach((image, index) => {
+    if (!hasBlockedCustomerLogo(image.getAttribute('src') || image.src)) return;
+    image.src = replacementImageFor(index);
+    image.alt = 'Lavorazione industriale S.N.A. Impianti senza loghi cliente visibili';
+  });
+
+  document.querySelectorAll('a[href], [data-full]').forEach((element, index) => {
+    if (element.hasAttribute('href') && hasBlockedCustomerLogo(element.getAttribute('href'))) {
+      element.setAttribute('href', replacementImageFor(index));
+    }
+    if (element.hasAttribute('data-full') && hasBlockedCustomerLogo(element.getAttribute('data-full'))) {
+      element.setAttribute('data-full', replacementImageFor(index));
+    }
+  });
+
+  document.querySelectorAll('[style]').forEach((element) => {
+    const styleValue = element.getAttribute('style') || '';
+    if (!hasBlockedCustomerLogo(styleValue)) return;
+    element.style.setProperty('--page-hero-image', `url('${replacementImageFor(0)}')`);
+  });
+
+  if (currentPage === 'ingegneria.html') {
+    const hero = document.querySelector('.page-hero');
+    if (hero) hero.style.setProperty('--page-hero-image', `url('${replacementImageFor(3)}')`);
+    const firstMedia = document.querySelector('.media-card img');
+    if (firstMedia) {
+      firstMedia.src = replacementImageFor(0);
+      firstMedia.alt = 'Tubazioni e skid gas con componenti integrati';
+    }
+  }
+
+  if (currentPage === 'presentazione-aziendale.html') {
+    const firstStackImage = document.querySelector('.image-stack img');
+    if (firstStackImage && hasBlockedCustomerLogo(firstStackImage.getAttribute('src') || firstStackImage.src)) {
+      firstStackImage.src = replacementImageFor(1);
+      firstStackImage.alt = 'Piping industriale e tubazioni prefabbricate';
+    }
+  }
+
+  if (currentPage === 'prodotti.html') {
+    const hero = document.querySelector('.page-hero');
+    if (hero) hero.style.setProperty('--page-hero-image', `url('${replacementImageFor(5)}')`);
+    const firstMedia = document.querySelector('.media-card img');
+    if (firstMedia && hasBlockedCustomerLogo(firstMedia.getAttribute('src') || firstMedia.src)) {
+      firstMedia.src = replacementImageFor(5);
+      firstMedia.alt = 'Unità di processo con piping industriale';
+    }
+  }
+
   if (currentPage === 'chi-siamo.html') {
     const companyImages = document.querySelectorAll('.image-stack img');
     const replacements = [

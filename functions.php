@@ -59,6 +59,15 @@ function snaimpianti_enqueue_assets(): void
         );
     }
 
+    if (file_exists(get_theme_file_path('/performance.css'))) {
+        wp_enqueue_style(
+            'snaimpianti-performance',
+            get_template_directory_uri() . '/performance.css',
+            ['snaimpianti-main'],
+            snaimpianti_asset_version('/performance.css')
+        );
+    }
+
     wp_enqueue_script(
         'snaimpianti-script',
         get_template_directory_uri() . '/script.js',
@@ -75,6 +84,14 @@ function snaimpianti_enqueue_assets(): void
     ]);
 }
 add_action('wp_enqueue_scripts', 'snaimpianti_enqueue_assets');
+
+add_filter('script_loader_tag', static function (string $tag, string $handle, string $src): string {
+    if ($handle !== 'snaimpianti-script') {
+        return $tag;
+    }
+
+    return '<script src="' . esc_url($src) . '" defer></script>';
+}, 10, 3);
 
 function snaimpianti_page_url(string $slug): string
 {
@@ -155,7 +172,13 @@ function snaimpianti_rewrite_static_links(string $html): string
     $page_map = snaimpianti_page_map();
 
     $html = preg_replace(
-        '#<link\b[^>]+href=["\'](?:\./)?(?:styles|partners)\.css(?:\?[^"\']*)?["\'][^>]*>\s*#i',
+        '#<link\b[^>]+href=["\']https://fonts\.(?:googleapis|gstatic)\.com[^>]*>\s*#i',
+        '',
+        $html
+    ) ?? $html;
+
+    $html = preg_replace(
+        '#<link\b[^>]+href=["\'](?:\./)?(?:styles|partners|performance)\.css(?:\?[^"\']*)?["\'][^>]*>\s*#i',
         '',
         $html
     ) ?? $html;
@@ -261,6 +284,52 @@ function snaimpianti_replace_restricted_customer_images(string $html): string
     return $html;
 }
 
+function snaimpianti_apply_performance_hints(string $html): string
+{
+    $theme_uri = trailingslashit(get_template_directory_uri());
+    $hero_image = esc_url($theme_uri . 'assets/Immagini/Officina/IMG_20200707_121840_001_COVER.jpg');
+
+    if (stripos($html, '</head>') !== false && !str_contains($html, 'rel="preload" as="image"')) {
+        $preload = '<link rel="preload" as="image" href="' . $hero_image . '" fetchpriority="high">' . "\n";
+        $html = str_ireplace('</head>', $preload . '</head>', $html);
+    }
+
+    $html = preg_replace_callback(
+        '/<img\b[^>]*>/i',
+        static function (array $match): string {
+            $tag = $match[0];
+            $lower = strtolower($tag);
+
+            if (str_contains($lower, 'width=') && str_contains($lower, 'height=')) {
+                return $tag;
+            }
+
+            $dimensions = null;
+            if (str_contains($lower, 'logo.jpg')) {
+                $dimensions = ' width="150" height="64"';
+            } elseif (str_contains($lower, 'img_20200707_121840_001_cover')) {
+                $dimensions = ' width="1600" height="1067" sizes="100vw"';
+                if (!str_contains($lower, 'fetchpriority=')) {
+                    $tag = preg_replace('/<img\b/i', '<img fetchpriority="high"', $tag, 1) ?? $tag;
+                }
+            } elseif (str_contains($lower, 'partners/')) {
+                $dimensions = ' width="160" height="80"';
+            } elseif (str_contains($lower, '/immagini/')) {
+                $dimensions = ' width="900" height="650"';
+            }
+
+            if (!$dimensions) {
+                return $tag;
+            }
+
+            return preg_replace('/\s*\/?>$/', $dimensions . '$0', $tag, 1) ?? $tag;
+        },
+        $html
+    ) ?? $html;
+
+    return $html;
+}
+
 function snaimpianti_insert_wordpress_hooks(string $html): string
 {
     ob_start();
@@ -307,6 +376,7 @@ function snaimpianti_render_static_html(string $static_file): void
 
     $html = snaimpianti_rewrite_static_links($html);
     $html = snaimpianti_replace_restricted_customer_images($html);
+    $html = snaimpianti_apply_performance_hints($html);
     $html = snaimpianti_insert_wordpress_hooks($html);
 
     echo $html;

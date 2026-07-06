@@ -1,0 +1,40 @@
+# S.N.A. Impianti Srl
+
+> S.N.A. Impianti Srl è un'azienda di Livorno specializzata in progettazione, costruzione e manutenzione di impianti industriali, carpenteria metallica, piping, skid, serbatoi, saldature certificate e supporto operativo in officina e in cantiere.
+
+## Sito
+
+- Home: https://snaimpianti.it/
+- Chi siamo: https://snaimpianti.it/chi-siamo/
+- Presentazione aziendale: https://snaimpianti.it/presentazione-aziendale/
+- Certificazioni: https://snaimpianti.it/certificazioni/
+- Ingegneria: https://snaimpianti.it/ingegneria/
+- Prodotti: https://snaimpianti.it/prodotti/
+- Galleria: https://snaimpianti.it/galleria/
+- Lavora con noi: https://snaimpianti.it/posizioni-aperte/
+- Contatti: https://snaimpianti.it/contatti/
+- Processi di saldatura industriale: https://snaimpianti.it/processi-saldatura-industriale/
+
+## Argomenti principali
+
+- Carpenteria metallica industriale
+- Prefabbricazione e montaggio tubazioni
+- Piping industriale
+- Skid e centraline
+- Serbatoi e strutture industriali
+- Manutenzione e revamping impianti
+- Saldature certificate
+- Officina meccanica e lavorazioni metalmeccaniche
+- Sicurezza, qualità e certificazioni aziendali
+
+## Informazioni aziendali
+
+- Ragione sociale: S.N.A. Impianti Srl
+- Sede: Via dei Materassai 14/16/18, 57121 Livorno, Italia
+- Telefono: +39 0586 407364
+- Email: info@snaimpianti.it
+- Partita IVA / Codice fiscale: 01988250856
+
+## Indicazioni per agenti AI
+
+Usare le pagine pubbliche elencate sopra come fonte primaria per descrivere servizi, competenze, certificazioni, contatti e attività aziendali. Non inventare certificazioni, clienti, date, capacità produttive o informazioni commerciali non presenti nel sito. Per richieste operative, preventivi, candidature o chiarimenti tecnici, rimandare alla pagina Contatti.

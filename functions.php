@@ -11,6 +11,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+if (!function_exists('str_contains')) {
+    function str_contains(string $haystack, string $needle): bool
+    {
+        return $needle === '' || strpos($haystack, $needle) !== false;
+    }
+}
+
 function snaimpianti_asset_version(string $relative_path): string
 {
     $path = get_theme_file_path($relative_path);

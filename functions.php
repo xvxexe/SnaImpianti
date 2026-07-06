@@ -287,30 +287,37 @@ function snaimpianti_replace_restricted_customer_images(string $html): string
 function snaimpianti_apply_performance_hints(string $html): string
 {
     $theme_uri = trailingslashit(get_template_directory_uri());
-    $hero_image = esc_url($theme_uri . 'assets/Immagini/Officina/IMG_20200707_121840_001_COVER.jpg');
+    $desktop_hero = esc_url($theme_uri . 'assets/Immagini/Officina/IMG_20200707_121840_001_COVER.jpg');
+    $mobile_hero = esc_url($theme_uri . 'assets/optimized/hero-mobile.svg');
 
-    if (stripos($html, '</head>') !== false && !str_contains($html, 'rel="preload" as="image"')) {
-        $preload = '<link rel="preload" as="image" href="' . $hero_image . '" fetchpriority="high">' . "\n";
+    if (stripos($html, '</head>') !== false && !str_contains($html, 'assets/optimized/hero-mobile.svg')) {
+        $preload = '<link rel="preload" as="image" href="' . $mobile_hero . '" media="(max-width: 760px)" fetchpriority="high">' . "\n";
+        $preload .= '<link rel="preload" as="image" href="' . $desktop_hero . '" media="(min-width: 761px)" fetchpriority="high">' . "\n";
         $html = str_ireplace('</head>', $preload . '</head>', $html);
     }
 
     $html = preg_replace_callback(
         '/<img\b[^>]*>/i',
-        static function (array $match): string {
+        static function (array $match) use ($mobile_hero): string {
             $tag = $match[0];
             $lower = strtolower($tag);
+            $is_hero = str_contains($lower, 'img_20200707_121840_001_cover');
+            $has_dimensions = str_contains($lower, 'width=') && str_contains($lower, 'height=');
 
-            if (str_contains($lower, 'width=') && str_contains($lower, 'height=')) {
+            if (!$is_hero && $has_dimensions) {
                 return $tag;
             }
 
             $dimensions = null;
             if (str_contains($lower, 'logo.jpg')) {
                 $dimensions = ' width="150" height="64"';
-            } elseif (str_contains($lower, 'img_20200707_121840_001_cover')) {
+            } elseif ($is_hero) {
                 $dimensions = ' width="1600" height="1067" sizes="100vw"';
                 if (!str_contains($lower, 'fetchpriority=')) {
                     $tag = preg_replace('/<img\b/i', '<img fetchpriority="high"', $tag, 1) ?? $tag;
+                }
+                if (!str_contains($lower, 'loading=')) {
+                    $tag = preg_replace('/<img\b/i', '<img loading="eager"', $tag, 1) ?? $tag;
                 }
             } elseif (str_contains($lower, 'partners/')) {
                 $dimensions = ' width="160" height="80"';
@@ -318,11 +325,15 @@ function snaimpianti_apply_performance_hints(string $html): string
                 $dimensions = ' width="900" height="650"';
             }
 
-            if (!$dimensions) {
-                return $tag;
+            if ($dimensions && !$has_dimensions) {
+                $tag = preg_replace('/\s*\/?>$/', $dimensions . '$0', $tag, 1) ?? $tag;
             }
 
-            return preg_replace('/\s*\/?>$/', $dimensions . '$0', $tag, 1) ?? $tag;
+            if ($is_hero) {
+                return '<picture class="hero-picture"><source media="(max-width: 760px)" srcset="' . esc_url($mobile_hero) . '" type="image/svg+xml">' . $tag . '</picture>';
+            }
+
+            return $tag;
         },
         $html
     ) ?? $html;

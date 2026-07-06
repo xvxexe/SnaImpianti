@@ -194,6 +194,66 @@ function snaimpianti_rewrite_static_links(string $html): string
     return $html;
 }
 
+function snaimpianti_replace_restricted_customer_images(string $html): string
+{
+    $theme_uri = trailingslashit(get_template_directory_uri());
+    $safe_images = [
+        $theme_uri . 'assets/Immagini/Tubazioni%20SKID%20GAS%20Bonura/IMG_0253.jpg',
+        $theme_uri . 'assets/Immagini/Tubazioni%20SKID%20GAS%20Bonura/IMG_20200610_113259.jpg',
+        $theme_uri . 'assets/Immagini/Tubazioni%20SKID%20GAS%20Bonura/IMG_20200611_122548.jpg',
+        $theme_uri . 'assets/Immagini/SKID%20LNG/f8efb232-3a4a-4cd5-9da9-2fb2d07b59f9.JPG',
+        $theme_uri . 'assets/Immagini/Officina/IMG_20200527_093147.jpg',
+        $theme_uri . 'assets/Immagini/Impianto%20OSMOSI%20CST/0561e4be-4d5e-4ff7-86e8-5ee9a2233119.jpg',
+    ];
+
+    $is_blocked = static function (string $value): bool {
+        $value = html_entity_decode($value, ENT_QUOTES, 'UTF-8');
+        for ($i = 0; $i < 3; $i++) {
+            $decoded = rawurldecode($value);
+            if ($decoded === $value) {
+                break;
+            }
+            $value = $decoded;
+        }
+
+        $value = strtolower($value);
+
+        return str_contains($value, 'skid o&g')
+            || str_contains($value, 'tank olio')
+            || str_contains($value, 'pignone');
+    };
+
+    $i = 0;
+    $html = preg_replace_callback(
+        '/\b(src|href|content|data-full)=(["\'])([^"\']+)\2/i',
+        static function (array $match) use (&$i, $safe_images, $is_blocked): string {
+            if (!$is_blocked($match[3])) {
+                return $match[0];
+            }
+
+            $replacement = esc_url($safe_images[$i++ % count($safe_images)]);
+
+            return $match[1] . '=' . $match[2] . $replacement . $match[2];
+        },
+        $html
+    ) ?? $html;
+
+    $j = 0;
+    $html = preg_replace_callback(
+        '#url\((["\']?)([^)"\']+)\1\)#i',
+        static function (array $match) use (&$j, $safe_images, $is_blocked): string {
+            if (!$is_blocked($match[2])) {
+                return $match[0];
+            }
+
+            return 'url(' . $match[1] . esc_url($safe_images[$j++ % count($safe_images)]) . $match[1] . ')';
+        },
+        $html
+    ) ?? $html;
+
+    return $html;
+}
+
 function snaimpianti_insert_wordpress_hooks(string $html): string
 {
     ob_start();
@@ -239,6 +299,7 @@ function snaimpianti_render_static_html(string $static_file): void
     }
 
     $html = snaimpianti_rewrite_static_links($html);
+    $html = snaimpianti_replace_restricted_customer_images($html);
     $html = snaimpianti_insert_wordpress_hooks($html);
 
     echo $html;

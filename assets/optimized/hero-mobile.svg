@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="980" viewBox="0 0 760 980" role="img" aria-label="Sfondo industriale S.N.A. Impianti">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f1528"/>
+      <stop offset="0.58" stop-color="#1d2440"/>
+      <stop offset="1" stop-color="#4d5e96"/>
+    </linearGradient>
+    <radialGradient id="r" cx="76%" cy="18%" r="62%">
+      <stop offset="0" stop-color="#6f7fbd" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#0f1528" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0v48" fill="none" stroke="#fff" stroke-opacity="0.055" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="760" height="980" fill="url(#g)"/>
+  <rect width="760" height="980" fill="url(#r)"/>
+  <rect width="760" height="980" fill="url(#grid)"/>
+  <g opacity="0.16" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round">
+    <path d="M-50 760C150 650 210 780 390 645S620 470 820 560"/>
+    <path d="M-20 820C180 710 250 835 430 700S670 530 825 625" opacity="0.55"/>
+  </g>
+  <g opacity="0.12" fill="#fff">
+    <rect x="455" y="138" width="220" height="18" rx="9"/>
+    <rect x="510" y="180" width="160" height="14" rx="7"/>
+    <rect x="80" y="690" width="220" height="16" rx="8"/>
+    <rect x="80" y="725" width="150" height="12" rx="6"/>
+  </g>
+</svg>

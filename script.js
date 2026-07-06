@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const themeConfig = window.SNATheme || {};
   const assetUrl = (themeConfig.assetsUrl || 'assets').replace(/\/$/, '');
   const homeUrl = (themeConfig.homeUrl || '/').replace(/\/?$/, '/');
+  const isSmallViewport = window.matchMedia('(max-width: 760px)').matches;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const staticPageMap = {
     'index.html': '',
     'chi-siamo.html': 'chi-siamo/',
@@ -123,33 +125,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const logoMarkup = partnerLogos.map((partner) => {
       const safeName = partner.name.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-      return `<div class="partner-logo"><img loading="lazy" decoding="async" src="${partner.src}" alt="Logo ${safeName}"><span hidden>${safeName}</span></div>`;
+      return `<div class="partner-logo"><img loading="lazy" decoding="async" width="160" height="80" src="${partner.src}" alt="Logo ${safeName}"><span hidden>${safeName}</span></div>`;
     }).join('');
 
     const duplicateMarkup = partnerLogos.map((partner) => {
       const safeName = partner.name.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-      return `<div class="partner-logo" aria-hidden="true"><img loading="lazy" decoding="async" src="${partner.src}" alt=""><span hidden>${safeName}</span></div>`;
+      return `<div class="partner-logo" aria-hidden="true"><img loading="lazy" decoding="async" width="160" height="80" src="${partner.src}" alt=""><span hidden>${safeName}</span></div>`;
     }).join('');
 
     partnerTrack.innerHTML = logoMarkup + duplicateMarkup;
   }
 
   const revealTargets = document.querySelectorAll('.section, .section-tight, .page-hero, .hero-panel, .card, .mini-card, .process-card, .info-card, .gallery-item, .album-card, .band');
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  if (revealTargets.length) {
+    if (isSmallViewport || prefersReducedMotion || !('IntersectionObserver' in window)) {
+      revealTargets.forEach(el => el.classList.add('is-visible'));
+    } else {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
-    revealTargets.forEach(el => {
-      el.classList.add('reveal');
-      revealObserver.observe(el);
-    });
-  } else {
-    revealTargets.forEach(el => el.classList.add('is-visible'));
+      revealTargets.forEach(el => {
+        el.classList.add('reveal');
+        revealObserver.observe(el);
+      });
+    }
   }
 
   document.querySelectorAll('[data-mail-form]').forEach(form => {

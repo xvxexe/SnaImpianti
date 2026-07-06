@@ -1,0 +1,85 @@
+/* Performance overrides for mobile PageSpeed */
+:root {
+  --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-stack);
+}
+
+.hero-media {
+  filter: none;
+  transform: none;
+  will-change: auto;
+}
+
+.hero-grid {
+  content-visibility: auto;
+  contain-intrinsic-size: 820px;
+}
+
+.section,
+.section-tight,
+.partners-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 720px;
+}
+
+img[loading="lazy"] {
+  content-visibility: auto;
+}
+
+@media (max-width: 760px) {
+  .topbar {
+    backdrop-filter: none;
+    background: #fff;
+  }
+
+  .hero {
+    min-height: calc(100svh - 76px);
+  }
+
+  .hero-grid {
+    min-height: calc(100svh - 76px);
+    padding: 42px 0 46px;
+    align-items: end;
+  }
+
+  .hero-panel {
+    display: none;
+  }
+
+  .hero-grid > div:first-child {
+    backdrop-filter: none;
+    padding: 22px;
+    background: linear-gradient(110deg, rgba(8,11,20,.86), rgba(8,11,20,.62));
+  }
+
+  .hero h1 {
+    font-size: clamp(2.35rem, 12vw, 3.6rem);
+    max-width: 12ch;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .section,
+  .section-tight,
+  .partners-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 680px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}

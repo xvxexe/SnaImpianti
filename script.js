@@ -120,7 +120,12 @@ document.addEventListener('DOMContentLoaded', () => {
       { name: 'azienda partner', src: `${assetUrl}/partners/logo_gie_2020-2.png.webp` },
       { name: 'azienda partner', src: `${assetUrl}/partners/logoherambiente-2.png.webp` },
       { name: 'azienda partner', src: `${assetUrl}/partners/timthumb-removebg-preview-2.png.webp` },
-      { name: 'azienda partner', src: `${assetUrl}/partners/unnamed-2.jpg.webp` }
+      { name: 'azienda partner', src: `${assetUrl}/partners/unnamed-2.jpg.webp` },
+      { name: 'Edison', src: `${assetUrl}/partners/ChatGPT Image Jul 9, 2026, 02_34_24 PM (1).png` },
+      { name: 'T. Mariotti', src: `${assetUrl}/partners/ChatGPT Image Jul 9, 2026, 02_34_25 PM (2).png` },
+      { name: 'IMI', src: `${assetUrl}/partners/ChatGPT Image Jul 9, 2026, 02_34_25 PM (3).png` },
+      { name: 'Centro Servizi Tecnici', src: `${assetUrl}/partners/ChatGPT Image Jul 9, 2026, 02_34_25 PM (4).png` },
+      { name: 'Veolia', src: `${assetUrl}/partners/ChatGPT Image Jul 9, 2026, 02_34_26 PM (5).png` }
     ];
 
     const logoMarkup = partnerLogos.map((partner) => {
